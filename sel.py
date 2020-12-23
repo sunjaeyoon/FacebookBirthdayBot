@@ -49,8 +49,10 @@ print(type(soup.prettify()))
 json_objects = re.search('\{.*?\}', soup.prettify())
 print(json_objects)
 
+"""
 with open("out1.html", "w+") as f:
     f.write(soup.prettify())
+"""
 
 #b_container = soup.find('div',{'id':'placeholder-8rmt0'})
 
