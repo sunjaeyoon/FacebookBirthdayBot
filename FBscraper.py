@@ -7,24 +7,19 @@ from selenium.webdriver.firefox.options import Options
 
 import time
 from bs4 import BeautifulSoup
-import re
 
-""" Will Implement Class object after completed prototyping
-class Bot(object):
-    def __init__(self):
-        self.driver = webdriver.Firefox()
-        self.wait = WebDriverWait(self.driver,10)
-    
-    def get_bdays(self, uname, password):
-        self.wait
-        self.driver.get("https://www.facebook.com")
-"""
+import os
+from dotenv import load_dotenv
+
+#Initialize Browser
 driver = webdriver.Firefox()#You could also use chrome
 
 wait = WebDriverWait(driver, 10)
 driver.get("https://www.facebook.com")
-userid = "username"
-pwd = "password"
+
+load_dotenv()
+userid = os.getenv('USER')
+pwd = os.getenv('PASS')
 time.sleep(5)
 
 #Login To FB
@@ -44,12 +39,5 @@ time.sleep(5)
 soup = BeautifulSoup(driver.page_source,'lxml')
 driver.quit()
 
-print(type(soup.prettify()))
-
-json_objects = re.search('\{.*?\}', soup.prettify())
-print(json_objects)
-
-"""
 with open("out1.html", "w+") as f:
     f.write(soup.prettify())
-"""
