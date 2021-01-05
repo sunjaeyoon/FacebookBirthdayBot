@@ -11,33 +11,39 @@ from bs4 import BeautifulSoup
 import os
 from dotenv import load_dotenv
 
-#Initialize Browser
-driver = webdriver.Firefox()#You could also use chrome
+import parser
 
-wait = WebDriverWait(driver, 10)
-driver.get("https://www.facebook.com")
+def getHTML():
+    driver = webdriver.Firefox()#You could also use chrome
 
-load_dotenv()
-userid = os.getenv('USER')
-pwd = os.getenv('PASS')
-time.sleep(5)
+    wait = WebDriverWait(driver, 10)
+    driver.get("https://www.facebook.com")
 
-#Login To FB
-emailelement= driver.find_element_by_xpath('.//*[@id="email"]')
-emailelement.send_keys(userid)
-passwordfield= driver.find_element_by_xpath('.//*[@id="pass"]')
-passwordfield.send_keys(pwd)
-#button= driver.find_element_by_xpath('.//*[@id="login"]')
-button = driver.find_element_by_name('login')
-button.click()
-time.sleep(2)
+    load_dotenv()
+    userid = os.getenv('FACEBOOK_USER')
+    pwd = os.getenv('PASS')
+    time.sleep(5)
 
-driver.get("https://www.facebook.com/events/birthdays/")
-time.sleep(5)
+    #Login To FB
+    emailelement= driver.find_element_by_xpath('.//*[@id="email"]')
+    emailelement.send_keys(userid)
+    passwordfield= driver.find_element_by_xpath('.//*[@id="pass"]')
+    passwordfield.send_keys(pwd)
+    #button= driver.find_element_by_xpath('.//*[@id="login"]')
+    button = driver.find_element_by_name('login')
+    button.click()
+    time.sleep(2)
 
-#element = driver.find_elements_by_xpath("//*[@class ='enter_submit uiTextareaNoResize uiTextareaAutogrow uiStreamInlineTextarea inlineReplyTextArea mentionsTextarea textInput']") 
-soup = BeautifulSoup(driver.page_source,'lxml')
-driver.quit()
+    driver.get("https://www.facebook.com/events/birthdays/")
+    time.sleep(5)
 
-with open("out1.html", "w+") as f:
-    f.write(soup.prettify())
+    soup = BeautifulSoup(driver.page_source,'lxml')
+    driver.quit()
+
+    return soup.prettify()
+
+data = getHTML()
+
+json_bday = parser.getBdays(data)
+print(len(json_bday))
+
