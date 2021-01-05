@@ -42,8 +42,22 @@ def getHTML():
 
     return soup.prettify()
 
-data = getHTML()
+def today():
+    import datetime
+    dt = datetime.datetime.today()
 
-json_bday = parser.getBdays(data)
-print(len(json_bday))
+    today_bday = []
+    data = getHTML()
+    json_bday = parser.getBdays(data)
+
+    for person in json_bday:
+        bday = person['birthdate']
+        if bday['month'] == dt.month and bday['day'] == dt.day:
+            print("Happy Birthday", person['name'])
+            today_bday.append(person)
+    
+    return today_bday
+
+if __name__ == "__main__":
+    today()
 
