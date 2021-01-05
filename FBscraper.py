@@ -12,33 +12,36 @@ import os
 from dotenv import load_dotenv
 
 import parser
+import json
 
 def getHTML():
-    driver = webdriver.Firefox()#You could also use chrome
+    try:
+        driver = webdriver.Firefox()#You could also use chrome
 
-    wait = WebDriverWait(driver, 10)
-    driver.get("https://www.facebook.com")
+        wait = WebDriverWait(driver, 10)
+        driver.get("https://www.facebook.com")
 
-    load_dotenv()
-    userid = os.getenv('FACEBOOK_USER')
-    pwd = os.getenv('PASS')
-    time.sleep(5)
+        load_dotenv()
+        userid = os.getenv('FACEBOOK_USER')
+        pwd = os.getenv('PASS')
+        time.sleep(5)
 
-    #Login To FB
-    emailelement= driver.find_element_by_xpath('.//*[@id="email"]')
-    emailelement.send_keys(userid)
-    passwordfield= driver.find_element_by_xpath('.//*[@id="pass"]')
-    passwordfield.send_keys(pwd)
-    #button= driver.find_element_by_xpath('.//*[@id="login"]')
-    button = driver.find_element_by_name('login')
-    button.click()
-    time.sleep(2)
+        #Login To FB
+        emailelement= driver.find_element_by_xpath('.//*[@id="email"]')
+        emailelement.send_keys(userid)
+        passwordfield= driver.find_element_by_xpath('.//*[@id="pass"]')
+        passwordfield.send_keys(pwd)
+        #button= driver.find_element_by_xpath('.//*[@id="login"]')
+        button = driver.find_element_by_name('login')
+        button.click()
+        time.sleep(2)
+    
+        driver.get("https://www.facebook.com/events/birthdays/")
+        time.sleep(5)
 
-    driver.get("https://www.facebook.com/events/birthdays/")
-    time.sleep(5)
-
-    soup = BeautifulSoup(driver.page_source,'lxml')
-    driver.quit()
+        soup = BeautifulSoup(driver.page_source,'lxml')
+    finally:
+        driver.quit()
 
     return soup.prettify()
 
@@ -59,5 +62,7 @@ def today():
     return today_bday
 
 if __name__ == "__main__":
-    today()
-
+    #today()
+    json_object = json.dumps({'Birthdays':today()}, indent = 4) 
+    with open("bday.json", "w") as f:
+        f.write(json_object)
