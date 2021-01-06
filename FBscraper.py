@@ -45,6 +45,11 @@ def getHTML():
 
     return soup.prettify()
 
+def postOnline(people):
+    for person in people:
+        if person["can_viewer_post"] and not person["has_viewer_posted_for_birthday"]:
+            print("Need to Post")
+
 def today():
     import datetime
     dt = datetime.datetime.today()
@@ -62,7 +67,9 @@ def today():
     return today_bday
 
 if __name__ == "__main__":
-    #today()
+    today()
+    """
     json_object = json.dumps({'Birthdays':today()}, indent = 4) 
     with open("bday.json", "w") as f:
         f.write(json_object)
+    """
