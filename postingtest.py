@@ -35,7 +35,7 @@ try:
     button.click()
     time.sleep(2)
 
-    driver.get("https://www.facebook.com/ho.allyson")
+    driver.get("https://www.facebook.com/profile")
     #time.sleep(5)
 
     soup = BeautifulSoup(driver.page_source,'lxml')
