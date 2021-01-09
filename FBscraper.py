@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.firefox.options import Options
+#from selenium.webdriver.firefox.options import Options
 
 import time
 from bs4 import BeautifulSoup
@@ -16,8 +16,8 @@ import json
 
 def getHTML():
     try:
-        driver = webdriver.Firefox()#You could also use chrome
-
+        #driver = webdriver.Firefox()#You could also use chrome
+        driver = webdriver.Chrome(executable_path="chromedriver")
         wait = WebDriverWait(driver, 10)
         driver.get("https://www.facebook.com")
 
